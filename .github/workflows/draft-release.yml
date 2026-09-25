@@ -17,23 +17,30 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      pull-requests: write # to open the version bump PR
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
         with:
           node-version-file: ".nvmrc"
-      - name: Bump and commit new version
+      # main's rulesets reject direct pushes of unscanned commits, so the bump lands via a PR.
+      - name: Bump version and open PR
         id: bump_version
         run: |
           git config --global user.email "<>"
           git config --global user.name "NJ Biome Config Draft Release Action"
           NEW_VERSION=$(npm version ${{ inputs.semver_release_type }} --no-git-tag-version)
+          BRANCH_NAME=upgrade-package-$NEW_VERSION
+          git checkout -b "$BRANCH_NAME"
           git add package.json package-lock.json
           git commit -m "Bump version to $NEW_VERSION"
-          git push
+          git push -u origin "$BRANCH_NAME"
+          gh pr create -B main -H "$BRANCH_NAME" --title "Bump version to $NEW_VERSION" --body "Created by the Draft release workflow."
           RELEASE_SHA=$(git rev-parse HEAD)
           echo "new_version=$NEW_VERSION" >> "$GITHUB_OUTPUT"
           echo "release_sha=$RELEASE_SHA" >> "$GITHUB_OUTPUT"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     outputs:
       new_version: ${{ steps.bump_version.outputs.new_version }}
       release_sha: ${{ steps.bump_version.outputs.release_sha }}

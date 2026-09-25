@@ -32,7 +32,8 @@ This config holds rules and formatting only. Keep repo-specific settings such as
 ### Publishing a new version of the package
 
 1. Go the the [Draft Release action](https://github.com/newjersey/biome-config/actions/workflows/draft-release.yml), click "Run workflow" (you need write permissions to do this). Choose the branch (`main`) and the semver level of the new version (patch, minor, major).
-2. Confirm this worked by checking that `package.json` version has been bumped and a draft release for this version is available in the [Releases page](https://github.com/newjersey/biome-config/releases).
-3. Click to Edit the new release, and update the description if needed. Click "Publish." This will trigger the publish-release Github Actions workflow.
-4. Once the workflow is completed, confirm that the package is updated on [NPM registry](https://www.npmjs.com/package/@newjersey/biome-config).
+2. Confirm this worked by checking that a "Bump version to vX.Y.Z" pull request is open and a draft release for this version is available in the [Releases page](https://github.com/newjersey/biome-config/releases).
+3. Merge the version bump pull request.
+4. Click to Edit the new release, and update the description if needed. Click "Publish." This will trigger the publish-release Github Actions workflow.
+5. Once the workflow is completed, confirm that the package is updated on [NPM registry](https://www.npmjs.com/package/@newjersey/biome-config).
    
