@@ -1,0 +1,24 @@
+{
+  "name": "biome-config",
+  "version": "0.0.1",
+  "description": "Biome configuration for New Jersey Innovation Authority projects",
+  "keywords": [
+    "biome",
+    "linting"
+  ],
+  "homepage": "https://github.com/newjersey/biome-config#readme",
+  "bugs": {
+    "url": "https://github.com/newjersey/biome-config/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/newjersey/biome-config.git"
+  },
+  "license": "MIT",
+  "author": "New Jersey Innovation Authority",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run test"
+  }
+}
