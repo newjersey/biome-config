@@ -36,14 +36,11 @@ jobs:
           git commit -m "Bump version to $NEW_VERSION"
           git push -u origin "$BRANCH_NAME"
           gh pr create -B main -H "$BRANCH_NAME" --title "Bump version to $NEW_VERSION" --body "Created by the Draft release workflow."
-          RELEASE_SHA=$(git rev-parse HEAD)
           echo "new_version=$NEW_VERSION" >> "$GITHUB_OUTPUT"
-          echo "release_sha=$RELEASE_SHA" >> "$GITHUB_OUTPUT"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     outputs:
       new_version: ${{ steps.bump_version.outputs.new_version }}
-      release_sha: ${{ steps.bump_version.outputs.release_sha }}
 
   draft-release:
     needs: update-version
@@ -52,12 +49,12 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v7
-        with:
-          ref: ${{ needs.update-version.outputs.release_sha }}
+      # A draft release doesn't create its tag until it's published, so targeting main tags
+      # main's HEAD at publish time: the merged bump commit, whatever merge method was used.
       - run: |
           gh release create ${{ needs.update-version.outputs.new_version }} \
           --draft \
           --generate-notes \
-          --target ${{ needs.update-version.outputs.release_sha }}
+          --target main
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
