@@ -36,4 +36,3 @@ This config holds rules and formatting only. Keep repo-specific settings such as
 3. Merge the version bump pull request.
 4. Click to Edit the new release, and update the description if needed. Click "Publish." This will trigger the publish-release Github Actions workflow.
 5. Once the workflow is completed, confirm that the package is updated on [NPM registry](https://www.npmjs.com/package/@newjersey/biome-config).
-   
